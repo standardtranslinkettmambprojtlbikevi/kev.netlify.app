@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="am">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Standard Translink — Mock</title>
+
+  <!-- Ethiopic font -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f0f2f4;
+      --card: #e8ebee;
+      --accent: #14a101;
+      --muted: #9aa0a6;
+      --text: #111;
+      --radius: 8px;
+      --gap: 18px;
+      --container-w: 760px;
+    }
+
+    /* Reset-ish */
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans Ethiopic", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: var(--text);
+      background: linear-gradient(#fff, #fff) no-repeat;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top browser-like bar */
+    .topbar {
+      height: 56px;
+      background: linear-gradient(0deg, rgba(211, 43, 43, 0.95), rgba(211, 43, 43, 0.95));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .page {
+      padding: 22px 18px 30px;
+      /* Reduced bottom padding from 120px to 30px */
+      display: flex;
+      justify-content: center;
+      flex: 1 0 auto;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--container-w);
+    }
+
+    /* Logo and main titles */
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding: 10px 8px 4px;
+    }
+
+    .logo {
+      width: 78px;
+      height: 78px;
+      min-width: 78px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0c80c6, #0679b8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 34px;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brand-titles .big {
+      font-size: 34px;
+      line-height: 1;
+      color: #126aa8;
+      font-weight: 700;
+    }
+
+    .brand-titles .small {
+      font-size: 14px;
+      color: #13323a;
+      opacity: 0.9;
+      font-weight: 700;
+    }
+
+    /* Card */
+    .card {
+      margin-top: 16px;
+      background: var(--card);
+      padding: 22px;
+      border-radius: 0px;
+    }
+
+    .ticket-id {
+      font-size: 34px;
+      font-weight: 700;
+      margin: 2px 2px 12px;
+      letter-spacing: 1px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 8px 2px 8px;
+      color: black;
+      font-size: 16px;
+
+    }
+
+    .muted {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 18px;
+      border-radius: 3px;
+      border: 0;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .btn-danger {
+      background: var(--accent);
+      color: #fff;
+      width: 100%;
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    /* input style matching screenshot */
+    .field {
+      margin-top: 10px;
+      display: block;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 100%;
+      font-size: 16px;
+      padding: 16px;
+      border-radius: 3px;
+      border: 0;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06) inset;
+      background: #fff;
+    }
+
+    /* Display field style */
+    .display-field {
+      width: 100%;
+      font-size: 16px;
+      padding: 16px;
+      border-radius: 3px;
+      border: 0;
+      background: #f8f9fa;
+      color: black;
+      margin-bottom: 8px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06) inset;
+      font-family: inherit;
+    }
+
+    .spacer {
+      height: 12px;
+    }
+
+    hr.sep {
+      border: 0;
+      height: 3.5px;
+      background: linear-gradient(#807e7e, #807e7e);
+      margin: 20px 0;
+      opacity: 0.5;
+    }
+
+    /* footer sticky-looking control like screenshot */
+    .phone-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 78px;
+      background: linear-gradient(#4b4b4b, #3b3b3b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      z-index: 40;
+      box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .phone-nav .pill {
+      width: 90%;
+      height: 6px;
+      background: #000;
+      border-radius: 999px;
+      opacity: 0.9;
+    }
+
+    /* smaller screen tweaks */
+    @media(min-width:780px) {
+      body {
+        background: var(--bg)
+      }
+
+      .page {
+        padding: 32px
+      }
+
+      .brand-titles .big {
+        font-size: 36px
+      }
+    }
+
+    .brand-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.3s ease;
+      /* smooth zoom */
+      cursor: zoom-in;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: red;
+      /* ✅ correct way */
+      line-height: 1.4;
+      margin-top: 22px;
+      font-weight: 600;
+      text-align: left;
+
+    }
+
+    .footer-title {
+      color: rgb(6, 6, 221);
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      text-align: center;
+      padding-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 600;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #3498db;
+      font-size: 2.5rem;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 8px 0;
+
+    }
+
+    /* FIXED FOOTER STYLES - UPDATED */
+    .footer {
+      margin: 0;
+      /* Changed from 30px */
+      padding: 20px;
+      /* Reduced padding */
+      text-align: center;
+      flex-shrink: 0;
+
+    }
+
+    .footer h1 {
+      font-size: 1.5rem;
+      color: rgba(12, 12, 128, 0.932);
+      margin-bottom: 15px;
+      /* Reduced margin */
+      font-weight: 600;
+    }
+
+    .footer p {
+      margin: 4px 0;
+      /* Reduced margin */
+      color: #5a5757;
+    }
+
+    .footer p span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">standard.translink.et</div>
+
+  <main class="page">
+    <div class="wrap">
+      <header class="brand" role="banner">
+        <img src="image_2025-09-12_08-38-06-removebg-preview.png" alt="Logo and Title" class="brand-image">
+      </header>
+
+      <div class="card" role="region" aria-label="ticket">
+        <div class="ticket-id">AA-02-0509</div>
+
+        <label>የመንቀሳቀሻ ፍቃድ ሁኔታ</label>
+        <button class="btn btn-danger">ታድሷል</button>
+
+        <div class="spacer"></div>
+
+        <label>የመንቀሳቀሻ ፍቃድ ማብቂያ ቀን (ቀቀ/ወወ/ዓዓዓዓ)</label>
+        <div class="display-field">29/05/2024 እ.ኤ.አ</div>
+
+        <hr class="sep" />
+
+        <label>የጂፒኤስ ሁኔታ</label>
+        <button class="btn btn-danger">መረጃ ይልካል</button>
+
+        <div class="spacer"></div>
+
+        <label>የጂፒኤስ መለያ ቁጥር</label>
+        <div class="display-field">868003035762082</div>
+
+        <div class="spacer"></div>
+
+        <label>የጂፒኤስ ገጣሚ ድርጅት</label>
+        <div class="display-field">Onetouch</div>
+
+        <div class="spacer"></div>
+
+        <label>ሞተር ብስክሌቱ በሲስተም የተመዘገበበት ቀን (ቀቀ/ወወ/ዓዓዓዓ)</label>
+        <div class="display-field">30/05/2023 እ.ኤ.አ</div>
+
+        <div class="spacer"></div>
+
+        <label>የጂፒኤስ መሣሪያ አይነት</label>
+        <div class="display-field">ET-300</div>
+
+        <hr class="sep" />
+
+        <label>የባለቤት ስም</label>
+        <div class="display-field">TEKELMEDEN GERMA</div>
+
+        <div class="spacer"></div>
+
+        <label>ባለቤትነት</label>
+        <div class="display-field">Individual</div>
+
+        <div class="spacer"></div>
+
+        <label>የባለቤት ስልክ</label>
+        <div class="display-field">+251910365678</div>
+
+        <hr class="sep" />
+
+        <label>የሻንሲ ቁጥር</label>
+        <div class="display-field">TS1852-150784</div>
+
+        <div class="spacer"></div>
+
+        <label>የሞተር ቁጥር</label>
+        <div class="display-field">TS1852</div>
+
+        <div class="spacer"></div>
+
+        <label>የሞተር ስሪት</label>
+        <div class="display-field">TVS</div>
+
+        <div class="spacer"></div>
+
+        <label>የሞተር ሞደል</label>
+        <div class="display-field">Apache RTR 160 4V</div>
+
+        <div class="spacer"></div>
+
+        <label>የተመረተበት ዓመት</label>
+        <div class="display-field">Standard</div>
+
+        <p class="hero-subtitle"><span>ከዚህ ሲስተም የሚገኘው መረጃ በመንቀሳቀሻ ፍቃድ ካርድ ላይ ከተመዘገበው ጋር የማይጣጣም ከሆነ የመንቀሳቀሻ ፍቃዱ ህጋዊ
+            አለመሆኑን
+            እናረጋግጣለን።</span></p>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-section">
+      <h1>ለተጨማሪ መረጃ</h1>
+      <p>የአዲስ አበባ ከተማ አስተዳደር ትራፊክ</p>
+      <p>ማኔጅመንት ኤጀንሲ የሞተር ብስክሌት</p>
+      <p>መቆጣጠሪያ ማዕከል</p>
+      <p><span>ስልክ</span>: +251-116-672386 / +251-116-662689</p>
+      <p>696 ነጻ የስልክ መስመር</p>
+    </div>
+  </footer>
+</body>
+
+</html>
